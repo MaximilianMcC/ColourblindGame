@@ -3,8 +3,7 @@ using Raylib_cs;
 
 class GameObject
 {
-	public Vector2 Position;
-	public Rectangle Hitbox;
+	public Transform Transform = new Transform();
 
 	public Vector2 Velocity;
 	public float GravityMultiplier = 1f;
@@ -36,7 +35,7 @@ class GameObject
 		Raylib.DrawTexturePro(
 			Texture,
 			new Rectangle(0, 0, Texture.Dimensions),
-			Hitbox,
+			Transform.Hitbox,
 			Vector2.Zero,
 			0f,
 			Color.White
@@ -44,7 +43,12 @@ class GameObject
 
 		if (Program.DebugMode)
 		{
-			Raylib.DrawRectangleLinesEx(Hitbox, 3f, IsBeingCollidedWith ? Color.Magenta : Color.Green);
+			// Draw our hitbox
+			Raylib.DrawRectangleLinesEx(Transform.Hitbox, 3f, IsBeingCollidedWith ? Color.Magenta : Color.Green);
+
+			// Draw a line to the positional parent if we have one
+			// TODO: Make it go from the centre
+			if (Transform.Parent != null) Raylib.DrawLineEx(Transform.WorldPosition, Transform.Parent.WorldPosition, 2f, Color.White);
 		}
 	}
 
@@ -68,7 +72,7 @@ class GameObject
 			if (thing.HasCollisionDetection == false) continue;
 			
 			// Check for collision
-			if (Raylib.CheckCollisionRecs(thing.Hitbox, Hitbox))
+			if (Raylib.CheckCollisionRecs(thing.Transform.Hitbox, Transform.Hitbox))
 			{
 				IsBeingCollidedWith = true;
 				ThingsBeingCollidedWith.Add(thing);
@@ -91,22 +95,21 @@ class GameObject
 	public void ResolveCollision(GameObject victim)
 	{
 		// Get the centre of the two objects
-		// TODO: Use normal position instead of centre
-		Vector2 ourCenter = Hitbox.Center;
-		Vector2 victimsCenter = victim.Hitbox.Center;
+		Vector2 ourCenter = Transform.CenterPosition;
+		Vector2 victimsCenter = victim.Transform.CenterPosition;
 
 		// Get the X and Y overlap based on how far apart they are
 		Vector2 distance = ourCenter - victimsCenter;
-		Vector2 halfSize = (Hitbox.Size + victim.Hitbox.Size) / 2f;
+		Vector2 halfSize = (Transform.Hitbox.Size + victim.Transform.Hitbox.Size) / 2f;
 		Vector2 overlap = halfSize - Vector2.Abs(distance);
 
 		// Resolve collision
-		// TODO: Try to do this with vectors instead of axis
+		// TODO: Use hitbox position
 		if (overlap.X < overlap.Y)
 		{
 			// Check for if we're going left/right
-			if (distance.X > 0) Position.X += overlap.X;
-			else Position.X -= overlap.X;
+			if (distance.X > 0) Transform.Position.X += overlap.X;
+			else Transform.Position.X -= overlap.X;
 
 			// Reset velocity
 			Velocity.X = 0f;
@@ -114,14 +117,28 @@ class GameObject
 		else
 		{
 			// Check for if we're going up/down
-			if (distance.Y > 0) Position.Y += overlap.Y;
-			else Position.Y -= overlap.Y;
+			if (distance.Y > 0) Transform.Position.Y += overlap.Y;
+			else Transform.Position.Y -= overlap.Y;
 
 			// Reset velocity
 			Velocity.Y = 0f;
 		}
+	}
 
-		// Keep the hitbox synced
-		Hitbox.Position = Position;
+	protected void ActAsPositionalParentForThingsCollidingWithUs()
+	{
+		// If something is colliding with us then act as their positional parent
+		if (IsBeingCollidedWith == false) return;
+
+		foreach (GameObject child in ThingsBeingCollidedWith)
+		{
+			// Check for if we are already the parent of this thing
+			if (child.Transform.Parent == Transform) continue;
+
+			// Update the child's position to be related to us
+			Vector2 childWorldPosition = child.Transform.WorldPosition;
+			child.Transform.Parent = Transform;
+			child.Transform.Position = childWorldPosition - Transform.WorldPosition;
+		}
 	}
 }

@@ -1,3 +1,4 @@
+using System.Numerics;
 using Raylib_cs;
 
 abstract class Scene
@@ -32,10 +33,14 @@ static class SceneManager
 		// Update everything
 		foreach (GameObject thing in Scene.GameObjects)
 		{
+			// Update
 			thing.Update();
+
+			// Handle gravity and velocity
 			if (thing.HasGravity) thing.Velocity.Y += (Scene.Gravity * thing.GravityMultiplier) * Raylib.GetFrameTime();
-			thing.Position += thing.Velocity * Raylib.GetFrameTime();
-			thing.Hitbox.Position = thing.Position;
+			thing.Transform.Position += thing.Velocity * Raylib.GetFrameTime();
+
+			thing.Transform.UnbindParent();
 		}
 
 		// Check for collision

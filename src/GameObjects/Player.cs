@@ -10,9 +10,9 @@ class Player : GameObject
 
 	public Player(Vector2 position)
 	{
-		Position = position;
+		Transform.Position = position;
 		Texture = Raylib.LoadTexture("./assets/test.png");
-		Hitbox.Size = new Vector2(64);
+		Transform.Size = new Vector2(64);
 
 		HasCollisionDetection = true;
 		HasCollisionResolution = true;
@@ -22,7 +22,7 @@ class Player : GameObject
 	public override void Update()
 	{
 		// Make the camera track us
-		SceneManager.Scene.Camera.Target = Hitbox.Position;
+		SceneManager.Scene.Camera.Target = Transform.WorldPosition;
 
 		// See what direction we're moving in
 		int movementDirection = (-Utils.BoolI(Raylib.IsKeyDown(KeyboardKey.Left))) + Utils.BoolI(Raylib.IsKeyDown(KeyboardKey.Right));
@@ -52,6 +52,6 @@ class Player : GameObject
 
 	public override void RenderUi()
 	{
-		Raylib.DrawText($"{Position:f2}\n{Velocity:f2}", 10, 10, 30, Color.White);
+		Raylib.DrawText($"L: {Transform.Position:f2}\nW: {Transform.WorldPosition:f2}\n{Velocity:f2}", 10, 10, 30, Color.White);
 	}
 }
