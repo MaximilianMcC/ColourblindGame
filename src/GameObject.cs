@@ -7,7 +7,17 @@ class GameObject
 	public Rectangle Hitbox;
 
 	public Vector2 Velocity;
-	public bool HasGravity = false;
+	public float GravityMultiplier = 1f;
+
+	// If we disable gravity then reset Y velocity too
+	private bool hasGravity;
+	public bool HasGravity {
+		get => hasGravity;
+		set {
+			hasGravity = value;
+			if (value == false) Velocity.Y = 0f;
+		}
+	}
 
 	public Texture2D Texture;
 
@@ -20,6 +30,7 @@ class GameObject
 	public virtual void Update() { }
 
 	public virtual void RenderUi() { }
+	public virtual void RenderDebugUi() { }
 	public virtual void Render()
 	{
 		Raylib.DrawTexturePro(

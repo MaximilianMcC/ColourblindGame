@@ -33,7 +33,7 @@ static class SceneManager
 		foreach (GameObject thing in Scene.GameObjects)
 		{
 			thing.Update();
-			thing.Velocity.Y += (Scene.Gravity * Raylib.GetFrameTime()) * Utils.BoolF(thing.HasGravity);
+			if (thing.HasGravity) thing.Velocity.Y += (Scene.Gravity * thing.GravityMultiplier) * Raylib.GetFrameTime();
 			thing.Position += thing.Velocity * Raylib.GetFrameTime();
 			thing.Hitbox.Position = thing.Position;
 		}
@@ -63,5 +63,6 @@ static class SceneManager
 		foreach (GameObject thing in Scene.GameObjects) thing.Render();
 		Raylib.EndMode2D();
 		foreach (GameObject thing in Scene.GameObjects) thing.RenderUi();
+		if (Program.DebugMode) foreach (GameObject thing in Scene.GameObjects) thing.RenderDebugUi();
 	}
 }

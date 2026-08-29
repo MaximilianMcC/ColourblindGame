@@ -11,5 +11,6 @@ class Game : Scene
 		GameObjects.Add(Player);
 
 		GameObjects.Add(new Platform(Vector2.Zero));
+		GameObjects.Add(new FallingPlatform(new Vector2(600, 0)));
 	}
 }
