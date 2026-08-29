@@ -30,6 +30,7 @@ class GameObject
 
 	public virtual void RenderUi() { }
 	public virtual void RenderDebugUi() { }
+	public virtual void RenderDebug() { }
 	public virtual void Render()
 	{
 		Raylib.DrawTexturePro(
@@ -132,13 +133,18 @@ class GameObject
 
 		foreach (GameObject child in ThingsBeingCollidedWith)
 		{
-			// Check for if we are already the parent of this thing
-			if (child.Transform.Parent == Transform) continue;
-
-			// Update the child's position to be related to us
-			Vector2 childWorldPosition = child.Transform.WorldPosition;
-			child.Transform.Parent = Transform;
-			child.Transform.Position = childWorldPosition - Transform.WorldPosition;
+			SetPositionalChild(child);
 		}
+	}
+
+	public void SetPositionalChild(GameObject child)
+	{
+		// Check for if we are already the parent of this thing
+		if (child.Transform.Parent == Transform) return;
+
+		// Update the child's position to be related to us
+		Vector2 childWorldPosition = child.Transform.WorldPosition;
+		child.Transform.Parent = Transform;
+		child.Transform.Position = childWorldPosition - Transform.WorldPosition;	
 	}
 }

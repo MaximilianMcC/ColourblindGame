@@ -65,8 +65,13 @@ static class SceneManager
 		}
 
 		Raylib.BeginMode2D(Scene.Camera);
-		foreach (GameObject thing in Scene.GameObjects) thing.Render();
+		foreach (GameObject thing in Scene.GameObjects)
+		{
+			thing.Render();
+			if (Program.DebugMode) thing.RenderDebug();
+		}
 		Raylib.EndMode2D();
+		
 		foreach (GameObject thing in Scene.GameObjects) thing.RenderUi();
 		if (Program.DebugMode) foreach (GameObject thing in Scene.GameObjects) thing.RenderDebugUi();
 	}

@@ -8,11 +8,22 @@ class Player : GameObject
 	private NFloat frictionCoefficient = 0.2f;
 	private readonly float jumpForce = 300f;
 
+	private readonly Texture2D attackingTexture;
+	private readonly Texture2D normalTexture;
+
+	public bool Attacking { get; private set; }
+	public float AttackRadius { get; private set; } = 60f;
+	private readonly float attackTime = 0.4f;
+	private Timer attackTimer = new Timer();
+
 	public Player(Vector2 position)
 	{
 		Transform.Position = position;
-		Texture = Raylib.LoadTexture("./assets/test.png");
 		Transform.Size = new Vector2(64);
+
+		normalTexture = Raylib.LoadTexture("./assets/test.png");
+		attackingTexture = Raylib.LoadTexture("./assets/test-attacking.png");
+		Texture = normalTexture;
 
 		HasCollisionDetection = true;
 		HasCollisionResolution = true;
@@ -22,8 +33,16 @@ class Player : GameObject
 	public override void Update()
 	{
 		// Make the camera track us
+		// TODO: Put this in Move()
+		Move();
 		SceneManager.Scene.Camera.Target = Transform.WorldPosition;
 
+		// Attack
+		Attack();
+	}
+
+	private void Move()
+	{
 		// See what direction we're moving in
 		int movementDirection = (-Utils.BoolI(Raylib.IsKeyDown(KeyboardKey.Left))) + Utils.BoolI(Raylib.IsKeyDown(KeyboardKey.Right));
 
@@ -50,8 +69,38 @@ class Player : GameObject
 		}
 	}
 
+	private void Attack()
+	{
+		// Check for if we want to begin attacking
+		if (Attacking == false && Raylib.IsKeyPressed(KeyboardKey.E))
+		{
+			Attacking = true;
+			Texture = attackingTexture;
+			attackTimer.Start();
+		}
+
+		// Check for if we've gotta end attacking
+		if (Attacking == true && attackTimer.HasBeen(attackTime))
+		{
+			Attacking = false;
+			Texture = normalTexture;
+		}
+	}
+
+	public override void RenderDebug()
+	{
+		if (Attacking) Raylib.DrawCircleV(Transform.CenterPosition, AttackRadius, new Color(255, 0, 0, 128));
+	}
+
 	public override void RenderUi()
 	{
 		Raylib.DrawText($"L: {Transform.Position:f2}\nW: {Transform.WorldPosition:f2}\n{Velocity:f2}", 10, 10, 30, Color.White);
+	}
+
+	public bool ISAttackingAndWithinAttackRadius(Transform transform)
+	{
+		if (Attacking == false) return false;
+
+		return Raylib.CheckCollisionCircleRec(Transform.CenterPosition, AttackRadius, transform.Hitbox);
 	}
 }

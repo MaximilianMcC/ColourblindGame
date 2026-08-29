@@ -12,3 +12,8 @@ On the second 'level', the player will recognise and deal with the struggle of n
 Depending on the brief or whatever, I might make an option to have a toggle for colourblind accessibility features that make the second level easily passable via the use of unique textures and symbols and sounds and stuff, but idk yet.
 
 ![concept art](https://i.imgur.com/2fe7J3b.png)
+
+### Enemy ideas:
+These are all kinda just stolen from crash bandicoot ngl but I've been playing heaps of crash bandicoot recently and I love crash bandicoot so we're having crash bandicoot enemies:
+- 'Spin' enemy that needs to be 'attacked'
+- 'Bounce' enemy that needs to be jumped on

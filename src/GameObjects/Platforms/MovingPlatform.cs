@@ -14,7 +14,7 @@ class MovingPlatform : Platform
 
 	public MovingPlatform(Vector2 position) : base(position)
 	{
-		Texture = Raylib.LoadTexture("./assets/falling-platform.png");
+		Texture = Raylib.LoadTexture("./assets/sliding-platform.png");
 		Transform.Size = new Vector2(Texture.Width, Texture.Height);
 
 		startPosition = position;
