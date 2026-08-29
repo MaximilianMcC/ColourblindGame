@@ -20,13 +20,14 @@ class Program
 			if (Raylib.IsKeyPressed(KeyboardKey.Grave)) DebugMode = !DebugMode;
 			SceneManager.Update();
 
+			// Draw the actual game
 			Raylib.BeginTextureMode(renderTexture);
 			Raylib.ClearBackground(Color.Black);
 			SceneManager.Render();
 			Raylib.EndTextureMode();
 
+			// Draw to the actual screen
 			Raylib.BeginDrawing();
-			if (DebugMode) Raylib.DrawText($"DEBUG MODE ENABLED\n{Raylib.GetFPS()}", 10, 10, 30, Color.White);
 			Raylib.DrawTexturePro(
 				renderTexture.Texture,
 				new Rectangle(0, 0, renderTexture.Texture.Dimensions * new Vector2(1, -1)),
@@ -35,6 +36,7 @@ class Program
 				0f,
 				Color.White
 			);
+			if (DebugMode) Raylib.DrawText($"DEBUG MODE ENABLED", 10, Raylib.GetScreenHeight() - 10, 8, Color.White);
 			Raylib.EndDrawing();
 		}
 

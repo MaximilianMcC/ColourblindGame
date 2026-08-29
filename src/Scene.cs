@@ -4,6 +4,9 @@ abstract class Scene
 {
 	public List<GameObject> GameObjects = [];
 	public Camera2D Camera;
+	public Player Player;
+
+	public readonly float Gravity = 300f;
 
 	public abstract void Init();
 }
@@ -14,7 +17,7 @@ static class SceneManager
 
 	public static void SetScene(Scene scene)
 	{
-		// Unload the old scene
+		// Unload the old scene if we had one
 		if (Scene != null) foreach (GameObject thing in Scene.GameObjects) thing.CleanUp();
 
 		// Make the new scene
@@ -26,15 +29,25 @@ static class SceneManager
 	{
 		if (Scene == null) return;
 
+		// Update everything
 		foreach (GameObject thing in Scene.GameObjects)
 		{
 			thing.Update();
+			thing.Velocity.Y += (Scene.Gravity * Raylib.GetFrameTime()) * Utils.BoolF(thing.HasGravity);
+			thing.Position += thing.Velocity * Raylib.GetFrameTime();
 			thing.Hitbox.Position = thing.Position;
 		}
 
+		// Check for collision
 		foreach (GameObject thing in Scene.GameObjects)
 		{
 			thing.CheckForCollision();
+		}
+
+		// Fix collision
+		foreach (GameObject thing in Scene.GameObjects)
+		{
+			thing.ResolveCollisions();
 		}
 	}
 
@@ -49,5 +62,6 @@ static class SceneManager
 		Raylib.BeginMode2D(Scene.Camera);
 		foreach (GameObject thing in Scene.GameObjects) thing.Render();
 		Raylib.EndMode2D();
+		foreach (GameObject thing in Scene.GameObjects) thing.RenderUi();
 	}
 }
