@@ -6,7 +6,7 @@ abstract class Scene
 	public Camera2D Camera;
 	public Player Player;
 
-	public readonly float Gravity = 300f;
+	public readonly float Gravity = 700f;
 
 	public abstract void Init();
 }

@@ -7,6 +7,7 @@ class Platform : GameObject
 	{
 		Position = position;
 		Texture = Raylib.LoadTexture("./assets/platform1.png");
-		Hitbox.Size = Texture.Dimensions;
+		// Hitbox.Size = Texture.Dimensions;
+		Hitbox.Size = new Vector2(Texture.Width * 5, Texture.Height);
 	}
 }
