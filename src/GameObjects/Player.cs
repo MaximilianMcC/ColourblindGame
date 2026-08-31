@@ -6,7 +6,7 @@ class Player : GameObject
 	private readonly float acceleration = 2000f;
 	private readonly float maxSpeed = 300f;
 	private NFloat frictionCoefficient = 0.2f;
-	private readonly float jumpForce = 300f;
+	private readonly float jumpForce = 350f;
 
 	private readonly Texture2D attackingTexture;
 	private readonly Texture2D normalTexture;
@@ -62,8 +62,8 @@ class Player : GameObject
 		}
 
 		// Check for if we'd like to jump
-		// TODO: Make a special foot collider for this
-		if ((Raylib.IsKeyPressed(KeyboardKey.Space) || Raylib.IsKeyPressed(KeyboardKey.Up)) && IsBeingCollidedWith)
+		bool footCollision = IsBeingCollidedWith && DirectionOfThingsBeingCollidedWith.FirstOrDefault() == Direction.Bottom;
+		if ((Raylib.IsKeyDown(KeyboardKey.Space) || Raylib.IsKeyDown(KeyboardKey.Up)) && footCollision)
 		{
 			Velocity.Y = -jumpForce;
 		}
@@ -87,14 +87,11 @@ class Player : GameObject
 		}
 	}
 
-	public override void RenderDebug()
+	public override void RenderDebugUi()
 	{
-		if (Attacking) Raylib.DrawCircleV(Transform.CenterPosition, AttackRadius, new Color(255, 0, 0, 128));
-	}
+		Raylib.DrawText($"L: {Transform.Position:f2}\nW: {Transform.WorldPosition:f2}\n{Velocity:f2}\n\n{ThingsBeingCollidedWith.Count}\n{DirectionOfThingsBeingCollidedWith.FirstOrDefault()}", 10, 10, 30, Color.White);
 
-	public override void RenderUi()
-	{
-		Raylib.DrawText($"L: {Transform.Position:f2}\nW: {Transform.WorldPosition:f2}\n{Velocity:f2}", 10, 10, 30, Color.White);
+		if (Attacking) Raylib.DrawCircleV(Transform.CenterPosition, AttackRadius, new Color(255, 0, 0, 128));
 	}
 
 	public bool ISAttackingAndWithinAttackRadius(Transform transform)
