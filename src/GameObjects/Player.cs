@@ -91,8 +91,12 @@ class Player : GameObject
 	{
 		Raylib.DrawText($"L: {Transform.Position:f2}\nW: {Transform.WorldPosition:f2}\n{Velocity:f2}\n\n{ThingsBeingCollidedWith.Count}\n{DirectionOfThingsBeingCollidedWith.FirstOrDefault()}", 10, 10, 30, Color.White);
 
-		if (Attacking) Raylib.DrawCircleV(Transform.CenterPosition, AttackRadius, new Color(255, 0, 0, 128));
 	}
+
+    public override void RenderDebug()
+    {
+		if (Attacking) Raylib.DrawCircleV(Transform.CenterPosition, AttackRadius, new Color(255, 0, 0, 128));     
+    }
 
 	public bool ISAttackingAndWithinAttackRadius(Transform transform)
 	{

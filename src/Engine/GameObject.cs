@@ -27,6 +27,7 @@ class GameObject
 	public bool IsBeingCollidedWith { get; private set; }
 	public List<GameObject> ThingsBeingCollidedWith = [];
 	public List<Direction> DirectionOfThingsBeingCollidedWith = [];
+	public (GameObject GameObject, Direction Direction) GetCollisionDetails(int collisionIndex) => (ThingsBeingCollidedWith[collisionIndex], DirectionOfThingsBeingCollidedWith[collisionIndex]);
 
 	public virtual void Update() { }
 
