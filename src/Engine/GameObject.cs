@@ -23,8 +23,10 @@ class GameObject
 	public bool HasCollisionDetection = true;
 	public bool HasCollisionResolution = false;
 	
+	// TODO: Make these lists private then with a public readonly getter
 	public bool IsBeingCollidedWith { get; private set; }
 	public List<GameObject> ThingsBeingCollidedWith = [];
+	public List<Direction> DirectionOfThingsBeingCollidedWith = [];
 
 	public virtual void Update() { }
 
@@ -63,6 +65,7 @@ class GameObject
 		// Reset our stats
 		IsBeingCollidedWith = false;
 		ThingsBeingCollidedWith.Clear();
+		DirectionOfThingsBeingCollidedWith.Clear();
 
 		foreach (GameObject thing in SceneManager.Scene.GameObjects)
 		{
@@ -75,8 +78,10 @@ class GameObject
 			// Check for collision
 			if (Raylib.CheckCollisionRecs(thing.Transform.Hitbox, Transform.Hitbox))
 			{
+				// Say we're being collided with
 				IsBeingCollidedWith = true;
 				ThingsBeingCollidedWith.Add(thing);
+				DirectionOfThingsBeingCollidedWith.Add(Utils.GetDirectionOfThing(Transform, thing.Transform));
 			}
 		}
 	}

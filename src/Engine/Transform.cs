@@ -5,6 +5,8 @@ class Transform
 {
 	public Rectangle Hitbox => new Rectangle(WorldPosition, Size);
 	public Vector2 CenterPosition => Hitbox.Center;
+	public float Width => Size.X;
+	public float Height => Size.Y;
 
 	public Vector2 Position;
 	public Vector2 Size;
