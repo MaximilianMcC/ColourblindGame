@@ -8,8 +8,8 @@ class Player : GameObject
 	private NFloat frictionCoefficient = 0.2f;
 	private readonly float jumpForce = 350f;
 
-	private readonly Texture2D attackingTexture;
-	private readonly Texture2D normalTexture;
+	private readonly Texture attackingTexture;
+	private readonly Texture normalTexture;
 
 	public bool Attacking { get; private set; }
 	public float AttackRadius { get; private set; } = 60f;
@@ -21,8 +21,8 @@ class Player : GameObject
 		Transform.Position = position;
 		Transform.Size = new Vector2(64);
 
-		normalTexture = Raylib.LoadTexture("./assets/test.png");
-		attackingTexture = Raylib.LoadTexture("./assets/test-attacking.png");
+		normalTexture = new Texture("./assets/test.png");
+		attackingTexture = new Texture("./assets/test-attacking.png");
 		Texture = normalTexture;
 
 		HasCollisionDetection = true;

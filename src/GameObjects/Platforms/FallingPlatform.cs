@@ -17,7 +17,7 @@ class FallingPlatform : Platform
 	public FallingPlatform(Vector2 position) : base(position)
 	{
 		initialPosition = position;
-		Texture = Raylib.LoadTexture("./assets/falling-platform.png");
+		Texture = new Texture("./assets/falling-platform.png");
 		Transform.Size = new Vector2(Texture.Width, Texture.Height);
 
 		GravityMultiplier = 1.2f;

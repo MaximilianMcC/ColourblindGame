@@ -8,7 +8,7 @@ class Box : GameObject
 		Transform.Position = position;
 		Transform.Size = new Vector2(64);
 
-		Texture = Raylib.LoadTexture("./assets/box1.png");
+		Texture = new Texture("./assets/box1.png");
 
 		HasCollisionDetection = true;
 	}

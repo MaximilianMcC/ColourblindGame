@@ -18,7 +18,7 @@ class GameObject
 		}
 	}
 
-	public Texture2D Texture;
+	public Texture Texture;
 
 	public bool HasCollisionDetection = true;
 	public bool HasCollisionResolution = false;
@@ -36,15 +36,9 @@ class GameObject
 	public virtual void RenderDebug() { }
 	public virtual void Render()
 	{
-		Raylib.DrawTexturePro(
-			Texture,
-			new Rectangle(0, 0, Texture.Dimensions),
-			Transform.Hitbox,
-			Vector2.Zero,
-			0f,
-			Color.White
-		);
+		Texture.Draw(Transform);
 
+		// TODO: Put this in a special method
 		if (Program.DebugMode)
 		{
 			// Draw our hitbox
@@ -58,7 +52,7 @@ class GameObject
 
 	public virtual void CleanUp()
 	{
-		Raylib.UnloadTexture(Texture);
+		Texture.CleanUp();
 	}
 
 	public void CheckForCollision()

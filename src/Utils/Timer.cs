@@ -48,7 +48,7 @@ class CountdownTimer
 
 class Timer
 {
-	private double StartTime;
+	private double StartTime = -1d;
 
 	public void Start() => Restart();
 	public void Restart() => StartTime = Raylib.GetTime();
@@ -59,7 +59,7 @@ class Timer
 	public bool RestartIfHasBeen(float seconds)
 	{
 		bool ended = HasBeen(seconds);
-		if (ended) Restart();
+		if (ended || StartTime == -1d) Restart();
 		return ended;
 	}
 
