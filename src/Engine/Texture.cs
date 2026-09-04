@@ -8,11 +8,12 @@ class Texture
 	private bool animated = false;
 	public bool IsAnimated => animated;
 	public bool AnimationPaused { get; set; } = false;
+	public bool AnimationFinishedThisFrame { get; private set; }
 
 	private readonly Timer frameTimer = new Timer();
 	public float Fps { get; set; } = -1f;
 	public float FrameWidth { get; private set; }
-	public int Frames { get; private set; }
+	public int TotalFrames { get; private set; }
 	public int CurrentFrame { get; private set; }
 	
 	public Rectangle Rectangle => new Rectangle(0, 0, Dimensions);
@@ -41,7 +42,7 @@ class Texture
 		FrameWidth = frameWidth;
 
 		// Figure out how many frames we've got
-		Frames = RaylibTexture.Width / frameWidth;
+		TotalFrames = RaylibTexture.Width / frameWidth;
 
 		Initialised = true;
 	}
@@ -75,16 +76,23 @@ class Texture
 			return;
 		}
 
+		// Reset this toggle
+		AnimationFinishedThisFrame = false;
+
 		// Update our frame if needed
 		if (AnimationPaused == false)
 		{
 			// TODO: Use modulo
 			if (frameTimer.RestartIfHasBeen(1f / Fps)) CurrentFrame++;
-			if (CurrentFrame > Frames) CurrentFrame = 0;
+			if (CurrentFrame >= TotalFrames)
+			{
+				CurrentFrame = 0;
+				AnimationFinishedThisFrame = true;
+			}
 		}
 
 		// Figure out the section of the texture that we'd like to draw
-		Rectangle section = new Rectangle(0, Width * CurrentFrame, Dimensions);
+		Rectangle section = new Rectangle(FrameWidth * CurrentFrame, 0f, FrameWidth, Height);
 
 		// Draw it
 		Raylib.DrawTexturePro(

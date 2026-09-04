@@ -30,9 +30,17 @@ static class SceneManager
 	{
 		if (Scene == null) return;
 
-		// Update everything
-		foreach (GameObject thing in Scene.GameObjects)
+		// Remove anything that needs to be removed
+		for (int i = Scene.GameObjects.Count - 1; i >= 0 ; i--)
 		{
+			if (Scene.GameObjects[i].QueuedForDeletion) Scene.GameObjects.Remove(Scene.GameObjects[i]);
+		}
+
+		// Update everything
+		for (int i = Scene.GameObjects.Count - 1; i >= 0 ; i--)
+		{
+			GameObject thing = Scene.GameObjects[i];
+
 			// Update
 			thing.Update();
 
@@ -44,15 +52,15 @@ static class SceneManager
 		}
 
 		// Check for collision
-		foreach (GameObject thing in Scene.GameObjects)
+		for (int i = Scene.GameObjects.Count - 1; i >= 0 ; i--)
 		{
-			thing.CheckForCollision();
+			Scene.GameObjects[i].CheckForCollision();
 		}
 
 		// Fix collision
-		foreach (GameObject thing in Scene.GameObjects)
+		for (int i = Scene.GameObjects.Count - 1; i >= 0 ; i--)
 		{
-			thing.ResolveCollisions();
+			Scene.GameObjects[i].ResolveCollisions();
 		}
 	}
 
@@ -65,14 +73,26 @@ static class SceneManager
 		}
 
 		Raylib.BeginMode2D(Scene.Camera);
-		foreach (GameObject thing in Scene.GameObjects)
+		for (int i = Scene.GameObjects.Count - 1; i >= 0 ; i--)
 		{
+			GameObject thing = Scene.GameObjects[i];
+			
 			thing.Render();
 			if (Program.DebugMode) thing.RenderDebug();
 		}
 		Raylib.EndMode2D();
 		
-		foreach (GameObject thing in Scene.GameObjects) thing.RenderUi();
-		if (Program.DebugMode) foreach (GameObject thing in Scene.GameObjects) thing.RenderDebugUi();
+		for (int i = Scene.GameObjects.Count - 1; i >= 0 ; i--)
+		{
+			Scene.GameObjects[i].RenderUi();
+		}
+
+		if (Program.DebugMode)
+		{
+			for (int i = Scene.GameObjects.Count - 1; i >= 0 ; i--)
+			{
+				Scene.GameObjects[i].RenderDebugUi();
+			}
+		}
 	}
 }

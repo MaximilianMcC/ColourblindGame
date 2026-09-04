@@ -29,6 +29,8 @@ class GameObject
 	public List<Direction> DirectionOfThingsBeingCollidedWith = [];
 	public (GameObject GameObject, Direction Direction) GetCollisionDetails(int collisionIndex) => (ThingsBeingCollidedWith[collisionIndex], DirectionOfThingsBeingCollidedWith[collisionIndex]);
 
+	public bool QueuedForDeletion { get; private set; } = false;
+
 	public virtual void Update() { }
 
 	public virtual void RenderUi() { }
@@ -147,4 +149,7 @@ class GameObject
 		child.Transform.Parent = Transform;
 		child.Transform.Position = childWorldPosition - Transform.WorldPosition;	
 	}
+
+	public void Destroy() => QueuedForDeletion = true;
+	public static void Destroy(GameObject gameObject) => gameObject.QueuedForDeletion = true;
 }

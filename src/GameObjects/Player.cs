@@ -39,6 +39,11 @@ class Player : GameObject
 
 		// Attack
 		Attack();
+
+		if (Raylib.IsKeyPressed(KeyboardKey.F3))
+		{
+			SceneManager.Scene.GameObjects.Add(new Explosion(Transform.Position));
+		}
 	}
 
 	private void Move()
