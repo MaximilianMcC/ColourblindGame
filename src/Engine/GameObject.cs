@@ -150,6 +150,25 @@ class GameObject
 		child.Transform.Position = childWorldPosition - Transform.WorldPosition;	
 	}
 
+	public bool ThingColliding(GameObject thing, out Direction where)
+	{
+		// There is no collision at all
+		where = Direction.Unknown;
+		if (IsBeingCollidedWith == false) return false;
+
+		for (int i = 0; i < ThingsBeingCollidedWith.Count; i++)
+		{
+			// Check for collision
+			if (ThingsBeingCollidedWith[i] != thing) continue;
+			
+			where = DirectionOfThingsBeingCollidedWith[i];
+			return true;
+		}
+
+		// There was no collision with the specific thing
+		return false;
+	}
+
 	public void Destroy() => QueuedForDeletion = true;
 	public static void Destroy(GameObject gameObject) => gameObject.QueuedForDeletion = true;
 }

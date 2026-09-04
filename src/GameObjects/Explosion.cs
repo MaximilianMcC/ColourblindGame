@@ -28,4 +28,9 @@ class Explosion : GameObject
 		// Play the explosion once then remove ourselves from the scene
 		if (Texture.AnimationFinishedThisFrame) Destroy();
 	}
+
+	public override void RenderDebug()
+	{
+		Raylib.DrawCircleV(Transform.CenterPosition, BlastRadius, new Color(255, 0, 0, 128));
+	}
 }

@@ -22,7 +22,11 @@ class Box : GameObject
 		{
 			WhenAttacked();
 		}
+
+		// Check for if we're being touched
+		if (ThingColliding(player, out _)) WhenTouched();
 	}
 
 	protected virtual void WhenAttacked() { }
+	protected virtual void WhenTouched() { }
 }

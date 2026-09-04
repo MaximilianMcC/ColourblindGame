@@ -12,7 +12,7 @@ class Game : Scene
 
 		GameObjects.Add(new Platform(Vector2.Zero));
 		GameObjects.Add(new KeyBox(new Vector2(128, -64)));
-		GameObjects.Add(new Box(new Vector2(300, -64*2)));
+		GameObjects.Add(new ExplosionBox(new Vector2(300, -64*2)));
 		GameObjects.Add(new BouncyBox(new Vector2(500, -64)));
 		GameObjects.Add(new FallingPlatform(new Vector2(-200, 0)));
 		GameObjects.Add(new MovingPlatform(new Vector2(600, 0)));

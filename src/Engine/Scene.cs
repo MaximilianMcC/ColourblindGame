@@ -26,9 +26,22 @@ static class SceneManager
 		scene?.Init();
 	}
 
+	public static void ResetScene()
+	{
+		Type scene = Scene.GetType();
+		Scene newScene = Activator.CreateInstance(scene) as Scene;
+		SetScene(newScene);
+	}
+
 	public static void Update()
 	{
 		if (Scene == null) return;
+
+		// Check for if we'd like to restart the scene
+		if (Raylib.IsKeyPressed(KeyboardKey.R))
+		{
+			ResetScene();
+		}
 
 		// Remove anything that needs to be removed
 		for (int i = Scene.GameObjects.Count - 1; i >= 0 ; i--)

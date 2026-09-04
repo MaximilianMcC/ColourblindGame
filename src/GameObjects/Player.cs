@@ -100,7 +100,7 @@ class Player : GameObject
 
     public override void RenderDebug()
     {
-		if (Attacking) Raylib.DrawCircleV(Transform.CenterPosition, AttackRadius, new Color(255, 0, 0, 128));     
+		if (Attacking) Raylib.DrawCircleV(Transform.CenterPosition, AttackRadius, new Color(255, 0, 0, 128));
     }
 
 	public bool ISAttackingAndWithinAttackRadius(Transform transform)
