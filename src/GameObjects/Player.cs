@@ -6,7 +6,7 @@ class Player : GameObject
 	private readonly float acceleration = 2000f;
 	private readonly float maxSpeed = 300f;
 	private NFloat frictionCoefficient = 0.2f;
-	private readonly float jumpForce = 350f;
+	private readonly float jumpForce = 350f * 1.5f;
 
 	private readonly Texture attackingTexture;
 	private readonly Texture normalTexture;
@@ -28,6 +28,7 @@ class Player : GameObject
 		HasCollisionDetection = true;
 		HasCollisionResolution = true;
 		HasGravity = true;
+		GravityMultiplier = 2f;
 	}
 
 	public override void Update()

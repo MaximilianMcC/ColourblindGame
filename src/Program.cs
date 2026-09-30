@@ -9,7 +9,7 @@ class Program
 	{
 		Raylib.SetTraceLogLevel(TraceLogLevel.Warning);
 		Raylib.SetConfigFlags(ConfigFlags.ResizableWindow);
-		Raylib.InitWindow(1280, 720, "You're colourblind? What colour is this pencil?");
+		Raylib.InitWindow(1280, 720, "You're colourblind? What colour is this pencil then?");
 
 		SceneManager.SetScene(new Game());
 
