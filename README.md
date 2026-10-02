@@ -17,3 +17,10 @@ Depending on the brief or whatever, I might make an option to have a toggle for 
 These are all kinda just stolen from crash bandicoot ngl but I've been playing heaps of crash bandicoot recently and I love crash bandicoot so we're having crash bandicoot enemies:
 - 'Spin' enemy that needs to be 'attacked'
 - 'Bounce' enemy that needs to be jumped on
+
+
+# loop
+- get all 3 keys
+- avoid boxes and stuff
+
+maybe have good/bad boxes random?

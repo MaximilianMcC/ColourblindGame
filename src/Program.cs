@@ -10,6 +10,9 @@ class Program
 		Raylib.SetTraceLogLevel(TraceLogLevel.Warning);
 		Raylib.SetConfigFlags(ConfigFlags.ResizableWindow);
 		Raylib.InitWindow(1280, 720, "You're colourblind? What colour is this pencil then?");
+		Raylib.InitAudioDevice();
+
+		SoundEffectManager.LoadAllSounds();
 
 		SceneManager.SetScene(new Game());
 
@@ -40,7 +43,9 @@ class Program
 			Raylib.EndDrawing();
 		}
 
+		SoundEffectManager.UnloadAllSounds();
 		SceneManager.SetScene(null);
+		Raylib.CloseAudioDevice();
 		Raylib.CloseWindow();
 	}
 }

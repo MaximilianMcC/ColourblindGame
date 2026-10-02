@@ -90,14 +90,16 @@ static class SceneManager
 		{
 			GameObject thing = Scene.GameObjects[i];
 			
-			thing.Render();
+			if (thing.ShouldDraw) thing.Render();
 			if (Program.DebugMode) thing.RenderDebug();
 		}
 		Raylib.EndMode2D();
 		
 		for (int i = Scene.GameObjects.Count - 1; i >= 0 ; i--)
 		{
-			Scene.GameObjects[i].RenderUi();
+			GameObject thing = Scene.GameObjects[i];
+
+			if (thing.ShouldDrawUi) thing.RenderUi();
 		}
 
 		if (Program.DebugMode)

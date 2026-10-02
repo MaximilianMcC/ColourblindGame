@@ -19,6 +19,8 @@ class GameObject
 	}
 
 	public Texture Texture;
+	public bool ShouldDraw = true;
+	public bool ShouldDrawUi = true;
 
 	public bool HasCollisionDetection = true;
 	public bool HasCollisionResolution = false;
@@ -38,7 +40,8 @@ class GameObject
 	public virtual void RenderDebug() { }
 	public virtual void Render()
 	{
-		Texture.Draw(Transform);
+		// Draw ourself
+		Texture?.Draw(Transform);
 
 		// TODO: Put this in a special method
 		if (Program.DebugMode)
@@ -54,7 +57,7 @@ class GameObject
 
 	public virtual void CleanUp()
 	{
-		Texture.CleanUp();
+		Texture?.CleanUp();
 	}
 
 	public void CheckForCollision()

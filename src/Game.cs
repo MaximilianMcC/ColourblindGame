@@ -10,6 +10,9 @@ class Game : Scene
 		Player = new Player(new Vector2(0, -100));
 		GameObjects.Add(Player);
 
+		GameObjects.Add(new GameManager());
+		GameObjects.Add(new DeathPlane());
+
 		GameObjects.Add(new Platform(Vector2.Zero));
 		GameObjects.Add(new KeyBox(new Vector2(128, -64)));
 		GameObjects.Add(new ExplosionBox(new Vector2(300, -64*2)));

@@ -3,10 +3,24 @@ using Raylib_cs;
 
 class Player : GameObject
 {
+	public Vector2 Spawnpoint;
+
 	private readonly float acceleration = 2000f;
 	private readonly float maxSpeed = 300f;
 	private NFloat frictionCoefficient = 0.2f;
 	private readonly float jumpForce = 350f * 1.5f;
+
+	private CountdownTimer respawnTimer = new CountdownTimer(1f);
+	private bool dead = false;
+	public bool Dead
+	{
+		get => dead;
+		set
+		{
+			if (dead == false && value == true) Die();
+			dead = value;
+		}
+	}
 
 	private readonly Texture attackingTexture;
 	private readonly Texture normalTexture;
@@ -18,6 +32,8 @@ class Player : GameObject
 
 	public Player(Vector2 position)
 	{
+		Spawnpoint = position;
+
 		Transform.Position = position;
 		Transform.Size = new Vector2(64);
 
@@ -33,18 +49,24 @@ class Player : GameObject
 
 	public override void Update()
 	{
+		if (Dead == false)
+		{
+			Move();
+			Attack();
+		}
+
+		// Respawn
+		// TODO: Put this in a method
+		if (Dead && respawnTimer.IsFinished)
+		{
+			Dead = false;
+			ShouldDraw = true;
+			Transform.Position = Spawnpoint;
+		}
+
 		// Make the camera track us
 		// TODO: Put this in Move()
-		Move();
 		SceneManager.Scene.Camera.Target = Transform.WorldPosition;
-
-		// Attack
-		Attack();
-
-		if (Raylib.IsKeyPressed(KeyboardKey.F3))
-		{
-			SceneManager.Scene.GameObjects.Add(new Explosion(Transform.Position));
-		}
 	}
 
 	private void Move()
@@ -96,7 +118,6 @@ class Player : GameObject
 	public override void RenderDebugUi()
 	{
 		Raylib.DrawText($"L: {Transform.Position:f2}\nW: {Transform.WorldPosition:f2}\n{Velocity:f2}\n\n{ThingsBeingCollidedWith.Count}\n{DirectionOfThingsBeingCollidedWith.FirstOrDefault()}", 10, 10, 30, Color.White);
-
 	}
 
     public override void RenderDebug()
@@ -109,5 +130,20 @@ class Player : GameObject
 		if (Attacking == false) return false;
 
 		return Raylib.CheckCollisionCircleRec(Transform.CenterPosition, AttackRadius, transform.Hitbox);
+	}
+
+	public void Die()
+	{
+		// Can't die twice
+		if (dead == true) return;
+		dead = true;
+
+		SoundEffectManager.PlayDieSound();
+		ShouldDraw = false;
+		Velocity.X = 0f;
+		GameManager.Keys = 0;
+
+		// Start the timer then respawn after it goes off
+		respawnTimer.Reset();
 	}
 }

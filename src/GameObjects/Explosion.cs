@@ -22,7 +22,7 @@ class Explosion : GameObject
 		Player player = SceneManager.Scene.Player;
 		if (Raylib.CheckCollisionCircleRec(Transform.Position, BlastRadius, player.Transform.Hitbox))
 		{
-			Console.WriteLine("player dead");
+			player.Dead = true;
 		}
 
 		// Play the explosion once then remove ourselves from the scene
