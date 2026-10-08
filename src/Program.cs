@@ -25,7 +25,7 @@ class Program
 
 			// Draw the actual game
 			Raylib.BeginTextureMode(renderTexture);
-			Raylib.ClearBackground(Color.Black);
+			Raylib.ClearBackground(Color.White);
 			SceneManager.Render();
 			Raylib.EndTextureMode();
 

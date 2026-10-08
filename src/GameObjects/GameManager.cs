@@ -13,11 +13,11 @@ class GameManager : GameObject
 		//! debug
 		if (Raylib.IsKeyPressed(KeyboardKey.C))
 		{
-			NextLevel();
+			NextColorblindLevel();
 		}
 	}
 
-	public static void NextLevel()
+	public static void NextColorblindLevel()
 	{
 		Keys = 0;
 		SoundEffectManager.PlayColorChangeSound();
@@ -45,7 +45,8 @@ class GameManager : GameObject
 
 	public override void RenderUi()
 	{
-		Raylib.DrawText($"Keys: {Keys}/{MaxKeys}", 23, 23, 32, Color.Gold);
+		Color color = VisionType == VisionType.Colorblind ? Color.RayWhite : Color.DarkGray;
+		Raylib.DrawText($"Keys: {Keys}/{MaxKeys}", 23, 23, 32, color);
 	}
 }
 
