@@ -1,4 +1,5 @@
 using System.Numerics;
+using Raylib_cs;
 
 static class Utils
 {
@@ -41,6 +42,37 @@ static class Utils
 
 		return direction;
 	}
+
+	public static void DrawMiddleText(string text, float fontSize)
+	{
+		Font font = Raylib.GetFontDefault();
+		float spacing = fontSize / 10f;
+		string[] lines = text.Split('\n');
+
+		float lineHeight = fontSize * 1.2f;
+		float totalHeight = lines.Length * lineHeight;
+
+		float y = (Program.GameSize.Y - totalHeight) / 2f;
+
+		foreach (string line in lines)
+		{
+			Vector2 size = Raylib.MeasureTextEx(font, line, fontSize, spacing);
+
+			float x = (Program.GameSize.X - size.X) / 2f;
+
+			Raylib.DrawTextEx(
+				font,
+				line,
+				new Vector2(x, y),
+				fontSize,
+				spacing,
+				Color.Black
+			);
+
+			y += lineHeight;
+		}
+	}
+
 }
 
 enum Direction

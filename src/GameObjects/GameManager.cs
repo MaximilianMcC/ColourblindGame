@@ -2,7 +2,17 @@ using Raylib_cs;
 
 class GameManager : GameObject
 {
-	public static int Keys { get; set; } = 0;
+	private static int keys = 0;
+	public static int Keys
+	{
+		get => keys;
+		set
+		{
+			keys = value;
+			if (keys >= MaxKeys) NextColorblindLevel();
+		}
+	}
+
 	public static int MaxKeys { get; set; } = 3;
 	public static bool HasAllKeys => Keys >= MaxKeys;
 
@@ -26,13 +36,16 @@ class GameManager : GameObject
 		{
 			case VisionType.Normal:
 				VisionType = VisionType.Colorblind;
+				SceneManager.ResetScene();
 				break;
 
 			case VisionType.Colorblind:
 				VisionType = VisionType.Accessible;
+				SceneManager.ResetScene();
 				break;
 			
 			case VisionType.Accessible:
+				VisionType = VisionType.Normal;
 				EndOfGame();
 				break;
 		}
@@ -40,7 +53,7 @@ class GameManager : GameObject
 
 	public static void EndOfGame()
 	{
-		Console.WriteLine("Game end");
+		SceneManager.SetScene(new End());
 	}
 
 	public override void RenderUi()

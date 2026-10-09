@@ -5,6 +5,8 @@ class Program
 {
 	public static bool DebugMode = false;
 
+	public static Vector2 GameSize = new Vector2(1920, 1080) * 0.7f;
+
 	public static void Main(string[] args)
 	{
 		Raylib.SetTraceLogLevel(TraceLogLevel.Warning);
@@ -14,14 +16,23 @@ class Program
 
 		SoundEffectManager.LoadAllSounds();
 
-		SceneManager.SetScene(new Game());
+		SceneManager.SetScene(new Start());
 
-		RenderTexture2D renderTexture = Raylib.LoadRenderTexture(Raylib.GetScreenWidth(), Raylib.GetScreenHeight());
+		RenderTexture2D renderTexture = Raylib.LoadRenderTexture((int)GameSize.X, (int)GameSize.Y);
+		Vector2 previousScreenSize = Vector2.Zero;
 
 		while (Raylib.WindowShouldClose() == false)
 		{
 			if (Raylib.IsKeyPressed(KeyboardKey.Grave)) DebugMode = !DebugMode;
 			SceneManager.Update();
+
+			// Check for if the screen is resized
+			// Vector2 currentScreenSize = new Vector2(Raylib.GetScreenWidth(), Raylib.GetScreenHeight());
+			// if (currentScreenSize != previousScreenSize)
+			// {
+			// 	previousScreenSize = currentScreenSize;
+			// 	SceneManager.Scene.Camera.Offset = Raylib.GetScreenCenter();
+			// }
 
 			// Draw the actual game
 			Raylib.BeginTextureMode(renderTexture);

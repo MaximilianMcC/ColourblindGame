@@ -1,4 +1,5 @@
 using System.Numerics;
+using System.Runtime.InteropServices;
 
 class LevelBuilder
 {
@@ -56,11 +57,28 @@ class LevelBuilder
 
 			case 2:
 				AddExplosionBox(xOffset);
-				break;
-			
+				break; 
+
 			case 3:
 				AddBouncyBox(xOffset);
-				break;
+				break;			
+		}
+	}
+
+	public void InsertKeyBoxes()
+	{
+		// Get all boxes in the level and shuffle them around
+		List<Box> boxes = Scene.GameObjects.OfType<Box>().Where(x => x is not BouncyBox).ToList();
+		Random.Shared.Shuffle(CollectionsMarshal.AsSpan(boxes));
+
+		// Select x to turn into key boxes
+		for (int i = 0; i < GameManager.MaxKeys; i++)
+		{
+			// Make a key box in its place
+			Scene.GameObjects.Add(new KeyBox(boxes[i].Transform.Position));
+
+			// Remove/'replace' the old box
+			boxes[i].Destroy();
 		}
 	}
 }

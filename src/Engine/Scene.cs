@@ -16,14 +16,26 @@ static class SceneManager
 {
 	public static Scene Scene { get; private set; } = null;
 
+	private static bool switchingScene = false;
+	private static Scene nextScene;
+
 	public static void SetScene(Scene scene)
+	{
+		switchingScene = true;
+		nextScene = scene;
+	}
+
+	private static void SwitchScene()
 	{
 		// Unload the old scene if we had one
 		if (Scene != null) foreach (GameObject thing in Scene.GameObjects) thing.CleanUp();
 
 		// Make the new scene
-		Scene = scene;
-		scene?.Init();
+		Scene = nextScene;
+		Scene?.Init();
+
+		// We've switched
+		switchingScene = false;
 	}
 
 	public static void ResetScene()
@@ -35,6 +47,8 @@ static class SceneManager
 
 	public static void Update()
 	{
+		if (switchingScene) SwitchScene();
+
 		if (Scene == null) return;
 
 		// Check for if we'd like to restart the scene
@@ -62,18 +76,22 @@ static class SceneManager
 			thing.Transform.Position += thing.Velocity * Raylib.GetFrameTime();
 
 			thing.Transform.UnbindParent();
+
+			if (switchingScene) return;
 		}
 
 		// Check for collision
 		for (int i = Scene.GameObjects.Count - 1; i >= 0 ; i--)
 		{
 			Scene.GameObjects[i].CheckForCollision();
+			if (switchingScene) return;
 		}
 
 		// Fix collision
 		for (int i = Scene.GameObjects.Count - 1; i >= 0 ; i--)
 		{
 			Scene.GameObjects[i].ResolveCollisions();
+			if (switchingScene) return;
 		}
 	}
 
