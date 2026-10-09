@@ -55,10 +55,7 @@ class GameObject
 		}
 	}
 
-	public virtual void CleanUp()
-	{
-		Texture?.CleanUp();
-	}
+	public virtual void CleanUp() { }
 
 	public void CheckForCollision()
 	{

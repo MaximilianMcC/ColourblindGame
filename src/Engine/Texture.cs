@@ -105,9 +105,11 @@ class Texture
 		);
 	}
 
-	public void CleanUp()
+	public static void UnloadAll()
 	{
-		// TODO: make it so that the loaded texture dictionary also contains a number of things that are using the texture so that we can only unload the texture if this is the last thing that is using the texture
-		Console.WriteLine("TODO: unload texture");
+		foreach (Texture2D texture in loadedTextures.Values)
+		{
+			Raylib.UnloadTexture(texture);
+		}
 	}
 }

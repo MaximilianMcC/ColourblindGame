@@ -46,6 +46,7 @@ class Program
 		SoundEffectManager.UnloadAllSounds();
 		SceneManager.SetScene(null);
 		Raylib.CloseAudioDevice();
+		Texture.UnloadAll();
 		Raylib.CloseWindow();
 	}
 }
