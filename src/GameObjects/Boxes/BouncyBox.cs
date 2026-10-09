@@ -2,7 +2,16 @@ using System.Numerics;
 
 class BouncyBox : Box
 {
-	public BouncyBox(Vector2 position) : base(position) { }
+	private float bounceStrength = 850;
+
+	public BouncyBox(Vector2 position) : base(position)
+	{
+		AssignTextures(
+			"./assets/bouncy-box-normal.png",
+			"./assets/bouncy-box-colorblind.png",
+			"./assets/bouncy-box-accessible.png"
+		);
+	}
 
 	public override void Update()
 	{
@@ -26,13 +35,11 @@ class BouncyBox : Box
 
 		if (playerCollidingAboveUs)
 		{
-			Console.WriteLine("bounce");
-
 			// Make the player bounce
 			//! -1 is to stop us from colliding
 			// TODO: Fix
 			player.Transform.Position.Y -= 1f;
-			player.Velocity.Y = -500f;
+			player.Velocity.Y = -bounceStrength;
 		}
 	}
 }

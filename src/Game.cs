@@ -13,11 +13,68 @@ class Game : Scene
 		GameObjects.Add(new GameManager());
 		GameObjects.Add(new DeathPlane());
 
-		GameObjects.Add(new Platform(Vector2.Zero));
-		GameObjects.Add(new KeyBox(new Vector2(128, -64)));
-		GameObjects.Add(new ExplosionBox(new Vector2(300, -64*2)));
-		GameObjects.Add(new BouncyBox(new Vector2(500, -64)));
-		GameObjects.Add(new FallingPlatform(new Vector2(-200, 0)));
-		GameObjects.Add(new MovingPlatform(new Vector2(600, 0)));
+
+
+		LevelBuilder level = new LevelBuilder(this);	
+		level.AddGap(-100f);
+		level.AddPlatform(300f);
+		level.AddGap(100f);
+		level.AddPlatform(300f);
+		level.AddGap(100f);
+		level.MoveUp();
+		level.AddPlatform(100f);
+		level.AddGap(100f);
+		level.MoveUp();
+		level.AddPlatform(100f);
+		level.AddGap(100f);
+		level.MoveUp();
+		level.AddPlatform(500f);
+		level.AddRandomBox(-300f);
+		level.AddGap(200f);
+		level.AddPlatform(500f);
+		level.AddRandomBox(-300f);
+		level.MoveUp();
+		level.AddGap(100f);
+		level.AddPlatform(300f);
+		level.AddBouncyBox(-64f);
+		level.MoveUp(64f * 5);
+		level.AddPlatform(500f);
+		level.AddKeyBox(-350f);
+		level.AddGap(150f);
+		level.AddPlatform(300f);
+		level.AddGap(100f);
+		level.MoveUp();
+		level.AddPlatform(200f);
+		level.AddRandomBox(-100f);
+		level.AddGap(150f);
+		level.MoveUp();
+		level.AddPlatform(400f);
+		level.AddKeyBox(-250f);
+		level.AddGap(200f);
+		level.AddPlatform(300f);
+		level.AddExplosionBox(-150f);
+		level.MoveUp();
+		level.AddGap(100f);
+		level.AddPlatform(400f);
+		level.AddRandomBox(-200f);
+		level.AddGap(150f);
+		level.AddPlatform(500f);
+		level.AddRandomBox(-350f);
+		level.AddGap(200f);
+		level.AddPlatform(300f);
+		level.AddBouncyBox(-64f);
+		level.MoveUp(64 * 3);
+		level.AddGap(100f);
+		level.AddPlatform(500f);
+		level.AddKeyBox(-300f);
+
+
+
+		// GameObjects.Add(new KeyBox(new Vector2(128, -64)));
+		// GameObjects.Add(new ExplosionBox(new Vector2(300, -64)));
+		// GameObjects.Add(new Box(new Vector2(400, -64)));
+		// GameObjects.Add(new BouncyBox(new Vector2(500, -64)));
+		// GameObjects.Add(new FallingPlatform(new Vector2(-200, 0)));
+		// GameObjects.Add(new MovingPlatform(new Vector2(600, 0)));
 	}
 }

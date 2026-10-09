@@ -2,7 +2,15 @@ using System.Numerics;
 
 class ExplosionBox : Box
 {
-	public ExplosionBox(Vector2 position) : base(position) { }
+	public ExplosionBox(Vector2 position) : base(position)
+	{
+		AssignTextures(
+			"./assets/explosion-box-normal.png",
+			"./assets/explosion-box-colorblind.png",
+			"./assets/explosion-box-accessible.png"
+		);
+		HasCollisionDetection = false;
+	}
 
 	protected override void WhenAttacked() => Explode();
 	protected override void WhenTouched() => Explode();

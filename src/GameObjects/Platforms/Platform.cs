@@ -3,7 +3,7 @@ using Raylib_cs;
 
 class Platform : ColorblindObject
 {
-	public Platform(Vector2 position)
+	public Platform(Vector2 position, float width = -1f)
 	{
 		AssignTextures(
 			"./assets/platform-normal.png",
@@ -13,7 +13,6 @@ class Platform : ColorblindObject
 
 		Transform.Position = position;
 		Texture = new Texture("./assets/platform1.png");
-		// Hitbox.Size = Texture.Dimensions;
-		Transform.Size = new Vector2(Texture.Width * 5, Texture.Height);		
+		Transform.Size = new Vector2(width == -1f ? Texture.Width : width, Texture.Height);
 	}
 }

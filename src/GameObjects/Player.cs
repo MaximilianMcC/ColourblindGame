@@ -6,7 +6,7 @@ class Player : GameObject
 	public Vector2 Spawnpoint;
 
 	private readonly float acceleration = 2000f;
-	private readonly float maxSpeed = 300f;
+	private readonly float maxSpeed = 400f;
 	private NFloat frictionCoefficient = 0.2f;
 	private readonly float jumpForce = 350f * 1.5f;
 
@@ -37,8 +37,8 @@ class Player : GameObject
 		Transform.Position = position;
 		Transform.Size = new Vector2(64);
 
-		normalTexture = new Texture("./assets/test.png");
-		attackingTexture = new Texture("./assets/test-attacking.png");
+		normalTexture = new Texture("./assets/player.png");
+		attackingTexture = new Texture("./assets/player-attacking.png");
 		Texture = normalTexture;
 
 		HasCollisionDetection = true;
@@ -59,9 +59,10 @@ class Player : GameObject
 		// TODO: Put this in a method
 		if (Dead && respawnTimer.IsFinished)
 		{
-			Dead = false;
-			ShouldDraw = true;
-			Transform.Position = Spawnpoint;
+			// Dead = false;
+			// ShouldDraw = true;
+			// Transform.Position = Spawnpoint;
+			SceneManager.ResetScene();
 		}
 
 		// Make the camera track us

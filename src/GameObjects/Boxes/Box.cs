@@ -1,14 +1,18 @@
 using System.Numerics;
 using Raylib_cs;
 
-class Box : GameObject
+class Box : ColorblindObject
 {
 	public Box(Vector2 position)
 	{
+		AssignTextures(
+			"./assets/box-normal.png",
+			"./assets/box-colorblind.png",
+			"./assets/box-normal.png"
+		);
+
 		Transform.Position = position;
 		Transform.Size = new Vector2(64);
-
-		Texture = new Texture("./assets/box1.png");
 
 		HasCollisionDetection = true;
 	}
